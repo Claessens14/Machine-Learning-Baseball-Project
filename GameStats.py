@@ -22,6 +22,10 @@ class GameStats:
             away score @ i = 9
             home score @ i = 10
             '''
+            for i in xrange(token):
+                if(i in tokenIndex):
+                    list.append(removeQuotes(token[i])
+            
             for str in token:
                 if ((i == 3) or (i == 6)):   #find the word i want
                     noQuotes = str.split('"')
