@@ -1,6 +1,8 @@
-class GameStats:
+import numpy as np
 
-    def __init__(self):
+class GameStats(object):          
+    
+    def __init__(self, homeTeamNameIndex, homeTeamScoreIndex, homeTeamStatsIndex, visitorTeamNameIndex, visitorTeamScoreIndex, visitorTeamStatsIndex):
         #parse the text file
         self.statsFile = open("baseball2016.txt", "r")
         self.topArray = []
@@ -8,41 +10,38 @@ class GameStats:
         self.sc = np.zeros((30,30,30), np.int32) 
         self.sc[:,:,:] = -1  
         self.am = np.zeros((30,30), np.float32)
-
+        self.gameList = []
+        
         for line in self.statsFile:
             homeTeam = ""
             awayTeam = ""
             homeScore = 0
             awayScore = 0
-            i=0
+
             token = line.split(',')  #tokenize the string
-            '''
-            away team name @ i =3
-            home team name @ i = 6
-            away score @ i = 9
-            home score @ i = 10
-            '''
-            for i in xrange(token):
-                if(i in tokenIndex):
-                    list.append(removeQuotes(token[i])
+            tokenIndex = [homeTeamNameIndex, homeTeamScoreIndex, visitorTeamNameIndex, visitorTeamScoreIndex] + [i for i in homeTeamStatsIndex] + [i for i in visitorTeamStatsIndex]
+            attributes = dict()
             
-            for str in token:
-                if ((i == 3) or (i == 6)):   #find the word i want
-                    noQuotes = str.split('"')
-                    if (i == 3): awayTeam = noQuotes[1]
-                    if (i == 6): homeTeam = noQuotes[1]
-                if (i == 9): 
-                    awayScore = str
-                    print(awayTeam + ": " + awayScore + " (away)")
-                if (i == 10): 
-                    homeScore = str
-                    print(homeTeam + ": " + homeScore + " (home) ")
-                    print('-------')
-                i += 1
-            self.addScore(homeTeam, awayTeam, homeScore, awayScore)  
+            for i in xrange(len(token)):
+                if(i in tokenIndex):
+                    attributes[i] = removeQuotes(token[i])
+                        
+            self.addScore(attributes[homeTeamNameIndex], attributes[visitorTeamNameIndex], attributes[homeTeamScoreIndex], attributes[visitorTeamScoreIndex])
+                       
+            self.addGame(attributes[homeTeamNameIndex], attributes[homeTeamScoreIndex], [attributes[i] for i in homeTeamStatsIndex], attributes[visitorTeamNameIndex], attributes[visitorTeamScoreIndex], [attributes[i] for i in homeTeamStatsIndex])
+            
         self.buildAvgMatrix()
-        self.statsFile.close()
-        
+        self.statsFile.close()      
+       
+    def removeQuotes(string):
+        if (string.startswith('"') and string.endswith('"')) or (string.startswith("'") and string.endswith("'")):
+            print("here")
+            return string[1:-1]
+        return string  
+    
+    def addGame(self, team1, score1, stats1, team2, score2, stats2):
+        self.gameList.append([team1, score1, stats1, team2, score2, stats2])
+    
     #give it two teams, the scores, and it will add it to the matrix
     def addScore(self, team1, team2, score1, score2):
         '''
@@ -107,6 +106,9 @@ class GameStats:
         except:
             print('Invalid input of teams')
     
+    def getGameList(self):
+        return self.gameList
+    
     #constructs a matrix of the avg score in a matchup
     def buildAvgMatrix(self): 
         for col in range(len(self.sc[:,0])):   #depth
@@ -115,7 +117,6 @@ class GameStats:
                 avgScore = 0.0
                 count = 0.0
                 for j in tempScore:
-                    print(tempScore)
                     if (j != -1):
                         avgScore += j
                         count += 1
