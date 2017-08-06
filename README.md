@@ -1,4 +1,4 @@
-# Machine-Learning-Baseball-Project
+# Machine-Learning-Baseball
 
 ## Baseball
 The movie Money Ball, which is based on a true story, shows in game baseball statistics can be collected and analyzed in such a way that provides accurate answers to specific questions. This relies on the fact that, over the course of a season, teams experience patterns and react to factors in a repetitive manner, this ultimately affects their in-game performances. Essentially, the MLB is one large complexity system with feedback, stocks, and other system qualities as a result it can theoretically be understood.
