@@ -16,7 +16,7 @@ Both the teams in a game are given their individual ID values and are made into 
 In the end the model predicted games quite well. Scores were within 1 or 2 points off the actual values for the score and have about a 90% prediction rate of who would win games. The high accuracy of the model helps prove the hypothesis that baseball game statistics are highly correlated to the final score of the game. Such that the amount of home runs a team achieves in a game, has an direct effect of high there score is. Also when team achieves more hits than their opponent, they have a higher probability of scoring more runs than the other team. For defence, if a team completes a substantial amount of double plays in a game, then it demonstrates that there defense is effective, and that the other team will have a harder time scoring runs. The neural net was able to detect these subtle relations, to make effective predictions on who wins the game, and what the score is.
 
 
-Resources
+## Resources
 *********
 baseball data source
 http://www.retrosheet.org/gamelogs/index.html
